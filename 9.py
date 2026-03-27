@@ -6,7 +6,8 @@ from utils.clear import clear
 clear()
 
 reset = "\033[0m"
-tilecolor = f"\033[{38};{44}m"
+tilecolor = "\033[37;44m"
+tilecolor_dark = "\033[37;40m"
 state="12345678 "
 offset = "   "
 print()
@@ -19,7 +20,7 @@ for row in range(0, 3):
             code= tilecolor
             current = state[index]
             if current== " ":
-                code = ""
+                code = tilecolor_dark
             if subrow == 1:
                 label = current
             print(f"{code}   {label}   {reset}", end="  ")
