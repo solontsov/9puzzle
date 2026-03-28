@@ -9,6 +9,7 @@ reset = "\033[0m"
 tilecolor = "\033[37;44m"
 tilecolor_dark = "\033[37;40m"
 state="12345678 "
+state1="85137426 "
 offset = "   "
 print()
 for row in range(0, 3):
