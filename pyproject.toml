@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "nine-puzzle"
+version = "0.1.0"
+description = "A 9-squares sliding game"
+authors = ["Oleksandr Solontsov"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "puzzle9"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+readchar = "^4.2.1"
+
+[tool.poetry.scripts]
+# This maps 'play' to: folder.file:function
+play = "puzzle9.main:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
