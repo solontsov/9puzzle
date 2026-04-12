@@ -4,7 +4,7 @@ from readchar import readchar
 
 def move(state, direction, count):
     """Calculates the new state after a move."""
-    empty_idx = state.find(" ")
+    empty_idx = state.find("0")  # Find the index of the empty space
     row, col = divmod(empty_idx, 3)
     
     # Mapping Vim keys to (row_change, col_change)
@@ -48,10 +48,10 @@ def draw_board(state, count):
                 char = state[idx]
                 
                 # Pick color: Black for the hole, Blue for tiles
-                color = empty_color if char == " " else tile_color
+                color = empty_color if char == "0" else tile_color
                 
-                # Only show the number in the middle subrow
-                label = char if subrow == 1 else " "
+                # Only show the number in the middle subrow and if it's not zero
+                label = char if subrow == 1 and char != "0" else " "
                 
                 # Draw the tile segment
                 print(f"{color}   {label}   {reset}", end="  ")
@@ -61,10 +61,10 @@ def draw_board(state, count):
 
 def main():
     # Initial state (The goal state)
-    state = "85137426 " 
+    state = "851374260"  # '0' represents the empty space
     
     # A win condition 
-    goal = "12345678 "
+    goal = "123456780"
 
     count = 0
     history = []  # Stack for Undo
