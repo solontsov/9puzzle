@@ -2,6 +2,8 @@ import sys
 import os
 from readchar import readchar
 
+from puzzle9.utils.readpuzz import read_strings_from_file
+
 def move(state, direction, count):
     """Calculates the new state after a move."""
     empty_idx = state.find("0")  # Find the index of the empty space
@@ -38,7 +40,8 @@ def draw_board(state, count):
     # This prevents the screen from 'flickering' or scrolling
     print("\033[H\033[J", end="") 
     print("--- 9-SQUARES ---")
-    print("Keys: [h,j,k,l] to move, [u, r] to undo, redo | [q] to quit\n")
+    print("Keys: [h,j,k,l] to move, [u, r] to undo, redo | [q] to quit")
+    print("[o] to open the list of predefined puzzles\n")
 
     for row in range(3):
         # Each 'tile' is 3 terminal rows high for a square look
@@ -58,6 +61,38 @@ def draw_board(state, count):
             print() # End of terminal line (subrow)
         print() # Vertical gap between tiles
     print("Moves: ", count)
+
+def getPuzzle():
+    '''Shows a list of predefined puzzles (read from puzzle.txt) and returns the selected one.'''    
+    file_path = "puzzle9/puzzle.txt"  # Replace with your file path
+
+    try:
+        results = read_strings_from_file(file_path)
+        if results:
+            highlight_index = 0
+            #loop until user selects a valid puzzle
+            while True:
+                # clear the screen before showing the puzzles
+                print("\033[H\033[J", end="")
+                print("Selected puzzle [k,j, Enter]:")
+                # highlight the line  with blue background
+                for i, item in enumerate(results):
+                    if i == highlight_index:
+                        print(f"\033[44m{item}\033[0m")
+                    else:
+                        print(item)
+                # capture user input for navigation
+                ch = readchar().lower()
+                if ch == 'k':  # Move up
+                    highlight_index = (highlight_index - 1) % len(results)
+                elif ch == 'j':  # Move down
+                    highlight_index = (highlight_index + 1) % len(results)
+                elif ch == '\n':  # Enter key to select
+                    return results[highlight_index]        
+        else:
+            print("No matching strings found.")
+    except FileNotFoundError as fnf:
+        print(fnf)
 
 def main():
     # Initial state (The goal state)
@@ -82,7 +117,15 @@ def main():
             
             # Capture single keypress
             ch = readchar().lower()
-            
+            # --- OPEN PREDEFINED PUZZLES ---
+            if ch == 'o':
+                state = getPuzzle()
+                count = 0
+                history.clear()
+                redo_stack.clear()
+                # break
+                continue
+
             # --- QUIT ---
             if ch == 'q':
                 break
