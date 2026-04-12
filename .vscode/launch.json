@@ -1,0 +1,30 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+ 
+    {
+      "name": "Debug play (module direct)",
+      "type": "python",
+      "request": "launch",
+      "module": "puzzle9.main",
+      "justMyCode": true
+    },
+    {
+      "name": "Debug play with args",
+      "type": "python",
+      "request": "launch",
+      "module": "puzzle9.main",
+      "args": ["--example", "value"],
+      "justMyCode": true
+    },
+    {
+      "name": "Debug pytest",
+      "type": "python",
+      "request": "launch",
+      "module": "pytest",
+      "args": ["-q"],
+      "console": "integratedTerminal",
+      "justMyCode": false
+    }
+  ]
+}
