@@ -1,5 +1,6 @@
-import sys
+# import sys
 import os
+import platform
 
 from puzzle9.utils.readcharremapped import readchar
 from puzzle9.utils.readpuzz import read_strings_from_file
@@ -97,6 +98,10 @@ def getPuzzle():
         print(fnf)
 
 def main():
+
+    if platform.system() == "Windows":
+        os.system("cls")
+        
     # Initial state (The goal state)
     state = "851374260"  # '0' represents the empty space
     
