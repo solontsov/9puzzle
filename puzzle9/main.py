@@ -1,7 +1,7 @@
 import sys
 import os
-from readchar import readchar
 
+from puzzle9.utils.readcharremapped import readchar
 from puzzle9.utils.readpuzz import read_strings_from_file
 
 def move(state, direction, count):
@@ -89,7 +89,7 @@ def getPuzzle():
                     highlight_index = (highlight_index + 1) % len(results)
                 elif ch in ('\n', '\r'):  # Enter key to select
                     return results[highlight_index]   
-                elif ch == '\x1b':  # Escape key to cancel
+                elif ch == 'e':  # Escape key to cancel
                     return None     
         else:
             print("No matching strings found.")
