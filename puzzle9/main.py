@@ -74,7 +74,7 @@ def getPuzzle():
             while True:
                 # clear the screen before showing the puzzles
                 print("\033[H\033[J", end="")
-                print("Selected puzzle [k,j, Enter]:")
+                print("Selected puzzle [k,j, Enter, Escape]:")
                 # highlight the line  with blue background
                 for i, item in enumerate(results):
                     if i == highlight_index:
@@ -87,8 +87,10 @@ def getPuzzle():
                     highlight_index = (highlight_index - 1) % len(results)
                 elif ch == 'j':  # Move down
                     highlight_index = (highlight_index + 1) % len(results)
-                elif ch == '\n':  # Enter key to select
-                    return results[highlight_index]        
+                elif ch in ('\n', '\r'):  # Enter key to select
+                    return results[highlight_index]   
+                elif ch == '\x1b':  # Escape key to cancel
+                    return None     
         else:
             print("No matching strings found.")
     except FileNotFoundError as fnf:
@@ -119,7 +121,10 @@ def main():
             ch = readchar().lower()
             # --- OPEN PREDEFINED PUZZLES ---
             if ch == 'o':
-                state = getPuzzle()
+                new_state = getPuzzle()
+                if new_state == None:
+                    continue
+                state = new_state
                 count = 0
                 history.clear()
                 redo_stack.clear()
