@@ -17,12 +17,5 @@
       "args": ["--example", "value"],
       "justMyCode": true
     },
-    {
-      "name": "Debug pytest",
-      "type": "python",
-      "request": "launch",
-      "module": "puzzle9.tests.chk_input",
-      "justMyCode": true
-    }
-  ]
+   ]
 }
