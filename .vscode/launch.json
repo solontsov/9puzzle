@@ -21,10 +21,8 @@
       "name": "Debug pytest",
       "type": "python",
       "request": "launch",
-      "module": "pytest",
-      "args": ["-q"],
-      "console": "integratedTerminal",
-      "justMyCode": false
+      "module": "puzzle9.tests.chk_input",
+      "justMyCode": true
     }
   ]
 }
