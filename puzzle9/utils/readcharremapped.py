@@ -50,7 +50,7 @@ def readchar():
 
     # Windows Arrow Keys often start with \x00 or \xe0
     # Unix Arrow Keys start with \x1b (ESC)
-    if ch in ('\x1b', '\x00', '\xe0'):
+    if ch in ('\x1b', '\x00', '\xe0', ''):
         # Wait 50ms for the rest of the sequence to arrive
         time.sleep(0.05) 
         sequence = get_extra_bytes()
