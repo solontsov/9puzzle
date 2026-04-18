@@ -2,7 +2,7 @@
 import os
 import platform
 
-from puzzle9.utils.readcharremapped import readchar
+from puzzle9.utils.readchar_remapped import readchar
 from puzzle9.utils.readpuzz import read_strings_from_file
 
 def move(state, direction, count):
