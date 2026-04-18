@@ -2,6 +2,8 @@
 import os
 import platform
 
+from puzzle9.utils import all_states
+from puzzle9.utils.all_states import AllStates
 from puzzle9.utils.readchar_remapped import readchar
 from puzzle9.utils.readpuzz import read_strings_from_file
 
@@ -31,12 +33,12 @@ def move(state, direction, count):
     
     return state, count # Return original if move is out of bounds
 
-def draw_board(state, count):
+def draw_board(state, count, all_states):
     """Renders the colored 3x3 grid to the terminal."""
     reset = "\033[0m"
     tile_color = "\033[37;44m"      # White text on Blue background
     empty_color = "\033[37;40m"     # White text on Black background
-    
+
     # \033[H moves cursor to top-left; \033[J clears from cursor down
     # This prevents the screen from 'flickering' or scrolling
     print("\033[H\033[J", end="") 
@@ -50,18 +52,30 @@ def draw_board(state, count):
             for col in range(3):
                 idx = 3 * row + col
                 char = state[idx]
-                
+
                 # Pick color: Black for the hole, Blue for tiles
                 color = empty_color if char == "0" else tile_color
-                
+
                 # Only show the number in the middle subrow and if it's not zero
                 label = char if subrow == 1 and char != "0" else " "
-                
+
                 # Draw the tile segment
                 print(f"{color}   {label}   {reset}", end="  ")
             print() # End of terminal line (subrow)
         print() # Vertical gap between tiles
-    print("Moves: ", count)
+    # Show move count below the board in green, while solving goes by the shortest path and turns red if it exceeds that
+    # to determine this, we need to compare moves_to_solve with count+min_moves_to_solve, 
+    # where min_moves_to_solve is the minimum moves to solve from the current state to the goal state, 
+    # which we can get from the precomputed states in AllStates
+    # TODO:  
+    min_moves_to_solve = all_states.get_moves(state)
+    if min_moves_to_solve is not None:
+        if count + min_moves_to_solve == moves_to_solve:
+            print(f"\033[32mMoves: {count}\033[0m")  # Green if on optimal path
+        else:
+            print(f"\033[31mMoves: {count}\033[0m")  # Red if not on optimal path
+    else:   
+        print("Moves: ", count)
 
 def getPuzzle():
     '''Shows a list of predefined puzzles (read from puzzle.txt) and returns the selected one.'''    
@@ -101,10 +115,19 @@ def main():
 
     if platform.system() == "Windows":
         os.system("cls")
-        
-    # Initial state (The goal state)
-    state = "851374260"  # '0' represents the empty space
-    
+
+    all_states = AllStates()  # Precompute all states and their minimum moves
+
+    # old version  #state = "851374260"  # '0' represents the empty space
+
+    # Initial state is a random state from the list of all states with a number of moves to solve greater than 10 (to ensure it's not too easy)
+    # Getting states with more than 10 moves to solve
+    hard_states = [state for state, moves in all_states.states.items() if moves > 10]
+    # Select a random hard state
+    import random
+    state = random.choice(hard_states)
+    moves_to_solve = all_states.get_moves(state)
+
     # A win condition 
     goal = "123456780"
 
@@ -115,13 +138,16 @@ def main():
     try:
         # Hide the cursor for a cleaner game look
         print("\033[?25l", end="")
-        
+
         while True:
-            draw_board(state, count)
-            
+            draw_board(state, count, all_states)
+
             if state == goal:
-                print("\033[32mSOLVED! You win!\033[0m")
-            
+                if count == moves_to_solve:
+                    print("\033[32mSOLVED! You win!\033[0m")
+                else:
+                    print(f"\033[31mSOLVED! But you took {count} moves, while the optimal solution is {moves_to_solve} moves.\033[0m")
+
             # Capture single keypress
             ch = readchar().lower()
             # --- OPEN PREDEFINED PUZZLES ---
