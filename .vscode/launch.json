@@ -17,5 +17,13 @@
       "args": ["--example", "value"],
       "justMyCode": true
     },
+    // test all_states
+    {
+      "name": "Debug test all_states",
+      "type": "python",
+      "request": "launch",
+      "module": "puzzle9.utils.all_states",
+      "justMyCode": true
+    }
    ]
 }
