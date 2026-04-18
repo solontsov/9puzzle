@@ -33,7 +33,7 @@ def move(state, direction, count):
     
     return state, count # Return original if move is out of bounds
 
-def draw_board(state, count, all_states):
+def draw_board(state, count, all_states, moves_to_solve):
     """Renders the colored 3x3 grid to the terminal."""
     reset = "\033[0m"
     tile_color = "\033[37;44m"      # White text on Blue background
@@ -140,7 +140,7 @@ def main():
         print("\033[?25l", end="")
 
         while True:
-            draw_board(state, count, all_states)
+            draw_board(state, count, all_states, moves_to_solve)
 
             if state == goal:
                 if count == moves_to_solve:
@@ -159,7 +159,7 @@ def main():
                 count = 0
                 history.clear()
                 redo_stack.clear()
-                # break
+                moves_to_solve = all_states.get_moves(state)
                 continue
 
             # --- QUIT ---

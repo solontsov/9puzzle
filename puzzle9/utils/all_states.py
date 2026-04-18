@@ -1,7 +1,7 @@
 # class to hold all possible states and the minimum number of moves to get there
 class AllStates:
     def __init__(self):
-        self.states = {}
+        self.states = {'123456780': 0}  # Start with the solved state
         next_states = {'123456780'}
         self.process_next_states(next_states, 1)
 
