@@ -17,7 +17,7 @@ To install and run the 9puzzle game, follow these steps:
    source venv/bin/activate
    ```
 
-3. **Install Dependencies**:
+3. **Install Dependencies** (currently not required):
    ```bash
    pip install -r requirements.txt
    ```
